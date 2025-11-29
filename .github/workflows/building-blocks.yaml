@@ -1,5 +1,8 @@
 name: Building blocks
 on: push
+concurrency:
+    group: building-blocks
+    cancel-in-progress: false
 jobs:
   echo-hello:
     runs-on: ubuntu-latest
