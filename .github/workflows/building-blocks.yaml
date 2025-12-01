@@ -1,5 +1,8 @@
 name: Building blocks
-on: push
+on: 
+  push:
+    paths:
+      - '.github/workflows/building-blocks.yaml'
 concurrency:
     group: building-blocks
     cancel-in-progress: false

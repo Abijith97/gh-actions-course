@@ -2,6 +2,8 @@ name: Workflow events
 
 on: 
   push:
+    paths:
+      - '.github/workflows/workflow-events.yaml'
   pull_request:
   schedule:
     # every 5 minutes
