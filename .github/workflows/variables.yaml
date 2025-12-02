@@ -21,3 +21,13 @@ jobs:
                 echo ${{ env.JOB_VAR }}
                 echo ${{ env.WORKFLOW_VAR }}
                 echo ${{env.OVERWRITTEN_VAR}}
+            - name: Print repo values
+              run: |
+                echo {{ vars.MY_VAR }}
+    echo-env:
+        runs-on: ubuntu-latest
+        environment: prod
+        steps:
+            - name: Print env values
+              run: |
+                echo {{ vars.TARGET_VAR }}
