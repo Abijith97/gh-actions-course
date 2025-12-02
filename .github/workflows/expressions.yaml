@@ -13,9 +13,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Print start-up information
-              if: ${{ inputs.debug }}
+              if: inputs.debug
               run: |
-                echo "Triggered by: ${{ github.event_name }}"
-                echo "Branch: ${{ github.ref }}"
-                echo "Runner OS: ${{ runner.os }}"
+                echo "Triggered by: github.event_name"
+                echo "Branch: github.ref"
+                echo "Runner OS: runner.os"
               
