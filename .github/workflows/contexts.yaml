@@ -2,7 +2,6 @@ name: Contexts
 run-name: Context with debug - ${{ inputs.debug }}
 
 on: 
-  push:
   workflow_dispatch:
     inputs:
       debug:
@@ -21,4 +20,5 @@ jobs:
                 echo "${{ runner.os }}"
             - name: Retrieve variables
               run: |
+
                 echo "Variable value: ${{ vars.MY_VAR }}"
