@@ -2,7 +2,6 @@ name: Expressions
 run-name: Expressions with Debug - ${{ inputs.debug && 'ON' || 'OFF' }}
 
 on: 
-    push:
     workflow_dispatch:
         inputs:
             debug:
@@ -19,4 +18,5 @@ jobs:
                 echo "Triggered by: github.event_name"
                 echo "Branch: github.ref"
                 echo "Runner OS: runner.os"
+
               
