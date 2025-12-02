@@ -1,0 +1,23 @@
+name: Variables
+
+on:
+    workflow_dispatch:
+
+env:
+    WORKFLOW_VAR: 'I am a workflow env var'
+    OVERWRITTEN_VAR: 'I should be overwritten'
+jobs:
+    echo:
+        runs-on: ubuntu-latest
+        env:
+            JOB_VAR: 'I am a job env var'
+            OVERWRITTEN_VAR: 'I should be overwritten by job'
+        steps:
+            - name: Print env variables
+              env: 
+                STEP_VAR: 'I am a step env var'
+              run: |
+                echo ${{ env.STEP_VAR }}
+                echo ${{ env.JOB_VAR }}
+                echo ${{ env.WORKFLOW_VAR }}
+                echo ${{env.OVERWRITTEN_VAR}}
