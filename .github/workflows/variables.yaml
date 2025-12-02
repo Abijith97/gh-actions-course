@@ -1,6 +1,7 @@
 name: Variables
 
 on:
+    push:
     workflow_dispatch:
 
 env:
@@ -31,3 +32,10 @@ jobs:
             - name: Print env values
               run: |
                 echo ${{ vars.TARGET_VAR }}
+    run-test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Run test
+              if: ${{ github.event_name == 'push' }}
+              run: |
+                echo "Running push test"
