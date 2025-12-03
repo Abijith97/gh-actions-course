@@ -20,9 +20,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: build
-    # if: fromJson(${{ needs.build.outputs.build-status }})
+    if: fromJson(${{ needs.build.outputs.build-status }})
     steps:
         - name: Test
           run: 
-            echo "test ${{ needs.build.outputs.build-status }}"
+            echo "test success"
 
