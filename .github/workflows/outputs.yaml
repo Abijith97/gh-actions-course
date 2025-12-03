@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Builds
         id: build
-        run: echo "build-status=true" >> "$GITHUB_OUTPUT"
+        run: echo "build-status=false" >> "$GITHUB_OUTPUT"
   test:
     runs-on: ubuntu-latest
     needs: build
