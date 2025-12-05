@@ -11,6 +11,12 @@ jobs:
             matrix:
                 node-version: [18.x, 20.x, 21.x]
                 os: [ubunut-latest, windows-latest]
+                include:
+                    - os: ubuntu-latest
+                      node-version: 16.x
+                ignore:
+                    - os: windows-latest
+                      node-version: 21.x
         steps:
             - name: Setup node
               uses: actions/setup-node@v3
