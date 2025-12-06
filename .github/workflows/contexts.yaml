@@ -1,0 +1,24 @@
+name: Contexts
+run-name: Context with debug - ${{ inputs.debug }}
+
+on: 
+  workflow_dispatch:
+    inputs:
+      debug:
+        type: boolean
+        default: false
+
+jobs:
+    echo-data:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Display information
+              run: |
+                echo "Event name: ${{ github.event_name }}"
+                echo "Ref: ${{ github.ref }}"
+                echo "Run number: ${{ github.run_number }}"
+                echo "${{ runner.os }}"
+            - name: Retrieve variables
+              run: |
+
+                echo "Variable value: ${{ vars.MY_VAR }}"

@@ -1,0 +1,26 @@
+name: Matrix
+
+on:
+    workflow_dispatch:
+
+jobs:
+    matrix:
+        name: ${{ matrix.os }} - ${{ matrix.node-version }}
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [18.x, 20.x, 21.x]
+                os: [ubuntu-latest, windows-latest]
+                include:
+                    - os: ubuntu-latest
+                      node-version: 16.x
+                exclude:
+                    - os: windows-latest
+                      node-version: 21.x
+        steps:
+            - name: Setup node
+              uses: actions/setup-node@v3
+              with: 
+                node-version: ${{ matrix.node-version }}
+            - name: Test
+              run: echo "Test on ${{ matrix.os }} - ${{ matrix.node-version }}"
