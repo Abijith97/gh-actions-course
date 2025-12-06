@@ -13,7 +13,7 @@ jobs:
         runs-on: ubuntu-latest
         defaults:
           run:
-            working-directory: .github/workflows/caching/react-app
+            working-directory: caching/react-app
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
