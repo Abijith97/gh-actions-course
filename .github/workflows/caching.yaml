@@ -72,7 +72,7 @@ jobs:
                 key: ${{ needs.install-deps.outputs.deps-cache-key }}
 
             - name: Testing
-              run: npm run test
+              run: npm test
             
             - name: Linting
               run: echo "Linting"
