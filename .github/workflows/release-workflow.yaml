@@ -17,19 +17,19 @@ on:
                 default: CHANGELOG.md
             dry-run:
                 default: true
-                description: when true, do not write files, only compute outputs.
+                description: dry-run - when true, do not write files, only compute outputs.
                 type: boolean
 
 jobs:
     tag-release:
         runs-on: ubuntu-latest
         steps:
-            - uses: action@checkout@v4
-            - name: Releases the tag
-              uses: ./.github/actions/release
-              with:
-                  release-type: ${{ inputs.release-type }}
-                  tag-prefix: ${{ inputs.tag-prefix }}
-                  changelog-path: ${{ inputs.changelog-path }}
-                  dry-run: ${{ inputs.dry-run }}
+          - uses: action@checkout@v4
+          - name: Releases the tag
+            uses: ./.github/actions/release
+            with:
+                release-type: ${{ inputs.release-type }}
+                tag-prefix: ${{ inputs.tag-prefix }}
+                changelog-path: ${{ inputs.changelog-path }}
+                dry-run: ${{ inputs.dry-run }}
   

@@ -22,4 +22,4 @@ runs:
   using: composite
   steps:
     - name: Print release-type
-      run: echo ${{ inouts.release-type }}
+      run: echo ${{ inputs.release-type }}
