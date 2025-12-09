@@ -1,0 +1,25 @@
+name: Release a tag
+description: This action allows to release a tag
+
+inputs:
+  release-type: 
+    type: choice
+    - auto
+    - patch
+    - minor
+    - major
+    default: auto
+  tag-prefix:
+    default: v0.0.0
+  changelog-path: 
+    default: CHANGELOG.md
+  dry-run:
+    default: true
+    description: when true, do not write files, only compute outputs.
+    type: boolean
+  
+runs:
+  using: composite
+  steps:
+    - name: Print release-type
+      run: echo ${{ inouts.release-type }}

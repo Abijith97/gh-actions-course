@@ -1,0 +1,34 @@
+name: Release workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-type: 
+        type: choice
+        - auto
+        - patch
+        - minor
+        - major
+        default: auto
+      tag-prefix:
+        default: v0.0.0
+      changelog-path: 
+        default: CHANGELOG.md
+      dry-run:
+        default: true
+        description: when true, do not write files, only compute outputs.
+        type: boolean
+
+jobs:
+  tag-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action@checkout@v4
+      - name: Releases the tag
+        uses: ./.github/actions/release
+        with:
+          release-type: ${{ inputs.release-type }}
+          tag-prefix: ${{ inputs.tag-prefix }}
+          changelog-path: ${{ inputs.changelog-path }}
+          dry-run: ${{ inputs.dry-run }}
+  
