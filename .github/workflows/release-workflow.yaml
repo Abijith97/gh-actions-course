@@ -19,6 +19,8 @@ jobs:
         # 1. Should get latest tag of repository based on matching tag-prefix. For example, if tag-prefix is 'v', and tags are v1.0.0, v1.1.0, v2.0.0, the latest tag is v2.0.0.
         # Once it gets the tag, it should set an output 'latest-tag' with the value of the latest tag. Don't use composite actions for this step.
         # if no tags, then set latest tag as tag-prefix + 0.0.0
+
+        - uses: actions/checkout@v3
         - name: Get latest tag
           id: get-latest-tag
           run: |
