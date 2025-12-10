@@ -11,7 +11,7 @@ inputs:
       - major
     default: auto
   tag-prefix:
-    default: v0.0.0
+    default: v
   changelog-path: 
     default: CHANGELOG.md
   dry-run:
