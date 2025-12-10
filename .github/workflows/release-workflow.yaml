@@ -11,17 +11,20 @@ on:
                     - minor
                     - major
                 default: auto
-            tag-prefix:
-                default: v0.0.0
-            changelog-path: 
-                default: CHANGELOG.md
-            dry-run:
-                default: true
-                description: dry-run - when true, do not write files, only compute outputs.
-                type: boolean
+            # tag-prefix:
+            #     default: v0.0.0
+            # changelog-path: 
+            #     default: CHANGELOG.md
+            # dry-run:
+            #     default: true
+            #     description: dry-run - when true, do not write files, only compute outputs.
+            #     type: boolean
 
 jobs:
     tag-release:
+        # 1. Get the latest tag name
+        # 
+
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@v4
