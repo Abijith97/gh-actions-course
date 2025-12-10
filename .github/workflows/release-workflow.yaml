@@ -15,25 +15,20 @@ on:
 jobs:
     tag-release:
         runs-on: ubuntu-latest
-        steps:            
-          - name: Checkout with full history (tags, describe, changelogs)
-            uses: actions/checkout@v4
-            with:
-              fetch-depth: 0
-          
-        #   - uses: actions/checkout@v4
-        #   - name: Releases the tag
-        #     id: release_tag
-        #     uses: ./.github/actions/release
-        #     with:
-        #         release-type: ${{ inputs.release-type }}
-        #         tag-prefix: v
-        #         dry-run: false
-          
-        #   - name: Create a tag
-        #     if: ${{ !steps.release_tag.dry_run}}
-        #     run: |
-        #       git config user.name "Abijith97"
-        #       git config user.email "unniabija@gmail.com"
-        #       git tag ${{ steps.meta.outputs.tag }}
-        #       git push origin ${{ steps.meta.outputs.tag }}
+        steps:
+        # 1. Should get latest tag of repository based on matching tag-prefix. For example, if tag-prefix is 'v', and tags are v1.0.0, v1.1.0, v2.0.0, the latest tag is v2.0.0.
+        # Once it gets the tag, it should set an output 'latest-tag' with the value of the latest tag. Don't use composite actions for this step.
+        # if no tags, then set latest tag as tag-prefix + 0.0.0
+        - name: Get latest tag
+          id: get-latest-tag
+          run: |
+            TAG_PREFIX="v"
+            LATEST_TAG=$(git tag --list "${TAG_PREFIX}*" --sort=-v:refname | head -n 1)
+            if [ -z "$LATEST_TAG" ]; then
+              LATEST_TAG="${TAG_PREFIX}0.0.0"
+            fi
+            echo "Latest tag: $LATEST_TAG"
+            echo "latest-tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+          shell: bash
+
+
