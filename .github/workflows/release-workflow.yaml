@@ -24,7 +24,7 @@ jobs:
     tag-release:
         runs-on: ubuntu-latest
         steps:
-          - uses: action@checkout@v4
+          - uses: actions/checkout@v4
           - name: Releases the tag
             uses: ./.github/actions/release
             with:
