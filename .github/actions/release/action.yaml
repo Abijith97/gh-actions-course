@@ -17,9 +17,9 @@ runs:
   using: composite
   steps:
     - name: Checkout with full history (tags, describe, changelogs)
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
   # Collect commits since last tag
   # If tag does not exist, get all commits
     - name: Get commits since last tag
