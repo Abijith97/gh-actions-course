@@ -24,3 +24,4 @@ runs:
   steps:
     - name: Print release-type
       run: echo ${{ inputs.release-type }}
+      shell: bash
