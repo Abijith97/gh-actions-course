@@ -10,14 +10,8 @@ inputs:
       - minor
       - major
     default: auto
-  tag-prefix:
-    default: v
-  changelog-path: 
-    default: CHANGELOG.md
-  dry-run:
-    default: true
-    description: when true, do not write files, only compute outputs.
-    type: boolean
+  tag:
+    default: v0.0.0
   
 runs:
   using: composite

@@ -13,10 +13,10 @@ on:
                 default: auto
 
 jobs:
-    tag-release:
+    get-tag:
         runs-on: ubuntu-latest
         steps:
-        # 1. Should get latest tag of repository based on matching tag-prefix. For example, if tag-prefix is 'v', and tags are v1.0.0, v1.1.0, v2.0.0, the latest tag is v2.0.0.
+        # Should get latest tag of repository based on matching tag-prefix. For example, if tag-prefix is 'v', and tags are v1.0.0, v1.1.0, v2.0.0, the latest tag is v2.0.0.
         # Once it gets the tag, it should set an output 'latest-tag' with the value of the latest tag. Don't use composite actions for this step.
         # if no tags, then set latest tag as tag-prefix + 0.0.0
 
@@ -32,5 +32,12 @@ jobs:
             echo "Latest tag: $LATEST_TAG"
             echo "latest-tag=$LATEST_TAG" >> $GITHUB_OUTPUT
           shell: bash
-
-
+        
+        # Next step is to provide the latest tag and release type to the release action defined in .github/actions/release/action.yaml
+        # This action is a composite action that takes care of computing the new tag based on the latest tag and release type.
+        - name: Release a tag
+          uses: ./.github/actions/release
+          id: release
+          with:
+            release-type: ${{ github.event.inputs.release-type }}
+            tag: ${{ steps.get-latest-tag.outputs.latest-tag }}
