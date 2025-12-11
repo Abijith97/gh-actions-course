@@ -40,3 +40,54 @@ runs:
           echo "EOF"
         } >> $GITHUB_OUTPUT
       shell: bash
+  # Get new release tag based on commits from last tag to main
+  # Tag is of the format vX.Y.Z
+  # X is major change, Y is minor change, Z is patch change  
+  # 1. Traverse through each commit
+  # 2. If any commit has "BREAKING CHANGE" in its message, consider it a major change. Increment X by 1 and reset Y and Z to 0
+  # 3. Else if any commit starts with "feat:", consider it a minor change. Increment Y by 1 and reset Z to 0
+  # else consider it a patch change. Increment Z by 1
+    - name: Compute new tag
+      id: compute-new-tag
+      run: |
+        LAST_TAG="${{ inputs.tag }}"
+        RELEASE_TYPE="${{ inputs['release-type'] }}"
+        echo "Last tag: $LAST_TAG"
+        echo "Release type: $RELEASE_TYPE"
+        
+        # Remove 'v' prefix and split into components
+        VERSION=${LAST_TAG#v}
+        IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+        
+        # Initialize flags
+        IS_MAJOR=0
+        IS_MINOR=0
+        
+        # Read commits from output
+        COMMITS="${{ steps.get-commits.outputs.commits }}"
+        
+        # Check commits for breaking changes or features
+        while IFS= read -r COMMIT; do
+          if [[ "$COMMIT" == *"BREAKING CHANGE"* ]]; then
+            IS_MAJOR=1
+          elif [[ "$COMMIT" == feat:* ]]; then
+            IS_MINOR=1
+          fi
+        done <<< "$COMMITS"
+        
+        # Determine new version based on release type and commit analysis
+        if [ "$RELEASE_TYPE" = "major" ] || [ $IS_MAJOR -eq 1 ]; then
+          MAJOR=$((MAJOR + 1))
+          MINOR=0
+          PATCH=0
+        elif [ "$RELEASE_TYPE" = "minor" ] || [ $IS_MINOR -eq 1 ]; then
+          MINOR=$((MINOR + 1))
+          PATCH=0
+        else
+          PATCH=$((PATCH + 1))
+        fi
+        
+        NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
+        echo "New tag: $NEW_TAG"
+        echo "new-tag=$NEW_TAG" >> $GITHUB_OUTPUT
+      shell: bash
