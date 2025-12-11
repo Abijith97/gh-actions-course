@@ -51,7 +51,7 @@ runs:
       id: compute-new-tag
       run: |
         LAST_TAG="${{ inputs.tag }}"
-        RELEASE_TYPE="${{ inputs['release-type'] }}"
+        RELEASE_TYPE="${{ inputs.release-type }}"
         echo "Last tag: $LAST_TAG"
         echo "Release type: $RELEASE_TYPE"
         
