@@ -35,7 +35,7 @@ runs:
         echo "Commits since last tag:"
         echo "$COMMITS"
         {
-          echo "commits=<<EOF"
+          echo "commits<<EOF"
           echo "$COMMITS"
           echo "EOF"
         } >> $GITHUB_OUTPUT
