@@ -67,9 +67,6 @@ runs:
         # Initialize flags
         IS_MAJOR=0
         IS_MINOR=0
-      
-        #  Read commits from output
-        COMMITS="${{ steps.get-commits.outputs.commits }}"
         
         # Check commits for breaking changes or features
         while IFS= read -r COMMIT; do
@@ -78,7 +75,7 @@ runs:
           elif [[ "$COMMIT" == feat:* ]]; then
             IS_MINOR=1
           fi
-        done <<< "$COMMITS"
+        done <<< "${{ steps.get-commits.outputs.commits }}"
         
         # Determine new version based on release type and commit analysis
         if [ "$RELEASE_TYPE" = "major" ] || [ $IS_MAJOR -eq 1 ]; then
