@@ -48,7 +48,6 @@ runs:
   # 3. Else if any commit starts with "feat:", consider it a minor change. Increment Y by 1 and reset Z to 0
   # else consider it a patch change. Increment Z by 1
     - name: Compute new tag
-      needs: get-commits
       id: compute-new-tag
       run: |
         LAST_TAG="${{ inputs.tag }}"
