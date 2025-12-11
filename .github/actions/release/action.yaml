@@ -96,4 +96,4 @@ runs:
       #   NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
       #   echo "New tag: $NEW_TAG"
       #   echo "new-tag=$NEW_TAG" >> $GITHUB_OUTPUT
-      # shell: bash
+      shell: bash
