@@ -28,13 +28,15 @@ runs:
         LAST_TAG="${{ inputs.tag }}"
         echo "Last tag: $LAST_TAG"
         if [ "$LAST_TAG" = "v0.0.0" ]; then
-          echo "$LAST_TAG indicates no previous tag."
           COMMITS=$(git log --pretty=format:"%s")
         else
-          echo "$LAST_TAG indicates previous tag exists."
           COMMITS=$(git log "$LAST_TAG"..HEAD --pretty=format:"%s")
         fi
         echo "Commits since last tag:"
         echo "$COMMITS"
-        echo "commits=$COMMITS" >> $GITHUB_OUTPUT
+        {
+          echo "commits<<EOF"
+          echo "$COMMITS"
+          echo "EOF"
+        } >> $GITHUB_OUTPUT
       shell: bash
