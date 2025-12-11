@@ -48,29 +48,30 @@ runs:
   # 3. Else if any commit starts with "feat:", consider it a minor change. Increment Y by 1 and reset Z to 0
   # else consider it a patch change. Increment Z by 1
     - name: Compute new tag
+      needs: get-commits
       id: compute-new-tag
       run: |
-        echo "Working"
-      #   LAST_TAG="${{ inputs.tag }}"
-      #   RELEASE_TYPE="${{ inputs['release-type'] }}"
-      #   echo "Last tag: $LAST_TAG"
-      #   echo "Release type: $RELEASE_TYPE"
+        LAST_TAG="${{ inputs.tag }}"
+        RELEASE_TYPE="${{ inputs['release-type'] }}"
+        echo "Last tag: $LAST_TAG"
+        echo "Release type: $RELEASE_TYPE"
         
-      #   # Remove 'v' prefix and split into components
-      #   VERSION="${LAST_TAG#v}"
-      #   IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+        # Remove 'v' prefix and split into components
+        VERSION="${LAST_TAG#v}"
+        IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
         
-      #   # Set defaults if empty
-      #   MAJOR="${MAJOR:-0}"
-      #   MINOR="${MINOR:-0}"
-      #   PATCH="${PATCH:-0}"
+        # Set defaults if empty
+        MAJOR="${MAJOR:-0}"
+        MINOR="${MINOR:-0}"
+        PATCH="${PATCH:-0}"
         
-      #   # Initialize flags
-      #   IS_MAJOR=0
-      #   IS_MINOR=0
+        # Initialize flags
+        IS_MAJOR=0
+        IS_MINOR=0
         
-      #   # Read commits from output
-      #   COMMITS="${{ steps.get-commits.outputs.commits }}"
+        # Read commits from output
+        COMMITS="${{ steps.get-commits.outputs.commits }}"
+        echo "$COMMITS"
         
       #   # Check commits for breaking changes or features
       #   while IFS= read -r COMMIT; do
