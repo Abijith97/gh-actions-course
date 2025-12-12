@@ -71,23 +71,16 @@ runs:
         # Check commits for breaking changes or features
         while IFS= read -r COMMIT; do
           if [[ "$COMMIT" == *"BREAKING CHANGE"* ]]; then
-            IS_MAJOR=1
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
           elif [[ "$COMMIT" == feat:* ]]; then
-            IS_MINOR=1
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          else
+            PATCH=$((PATCH + 1))
           fi
         done < <(echo "${{ steps.get-commits.outputs.commits }}")
-        
-        # Determine new version based on release type and commit analysis
-        if [ "$RELEASE_TYPE" = "major" ] || [ $IS_MAJOR -eq 1 ]; then
-          MAJOR=$((MAJOR + 1))
-          MINOR=0
-          PATCH=0
-        elif [ "$RELEASE_TYPE" = "minor" ] || [ $IS_MINOR -eq 1 ]; then
-          MINOR=$((MINOR + 1))
-          PATCH=0
-        else
-          PATCH=$((PATCH + 1))
-        fi
         
         NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
         echo "New tag: $NEW_TAG"
