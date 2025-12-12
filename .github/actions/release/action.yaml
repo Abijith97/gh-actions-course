@@ -64,6 +64,12 @@ runs:
         MINOR="${MINOR:-0}"
         PATCH="${PATCH:-0}"
         
+        # Read commits into a variable
+        COMMITS="${{ steps.get-commits.outputs.commits }}"
+        
+        echo "Analyzing commits..."
+        echo "$COMMITS"
+        
         # Check commits for breaking changes or features
         while IFS= read -r COMMIT; do
           echo "Processing commit: $COMMIT"
@@ -77,7 +83,7 @@ runs:
           else
             PATCH=$((PATCH + 1))
           fi
-        done < <(echo "${{ steps.get-commits.outputs.commits }}")
+        done <<< "$COMMITS"
         
         NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
         echo "New tag: $NEW_TAG"
