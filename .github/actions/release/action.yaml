@@ -33,7 +33,6 @@ runs:
           COMMITS=$(git log "$LAST_TAG"..HEAD --pretty=format:"%s")
         fi
         echo "Commits since last tag:"
-        echo "$COMMITS"
         {
           echo "commits<<EOF"
           echo "$COMMITS"
