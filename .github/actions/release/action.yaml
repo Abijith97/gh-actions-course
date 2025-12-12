@@ -63,13 +63,10 @@ runs:
         MAJOR="${MAJOR:-0}"
         MINOR="${MINOR:-0}"
         PATCH="${PATCH:-0}"
-
-        # Initialize flags
-        IS_MAJOR=0
-        IS_MINOR=0
         
         # Check commits for breaking changes or features
         while IFS= read -r COMMIT; do
+          echo "Processing commit: $COMMIT"
           if [[ "$COMMIT" == *"BREAKING CHANGE"* ]]; then
             MAJOR=$((MAJOR + 1))
             MINOR=0
