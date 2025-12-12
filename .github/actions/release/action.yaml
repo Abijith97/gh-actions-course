@@ -75,7 +75,7 @@ runs:
           elif [[ "$COMMIT" == feat:* ]]; then
             IS_MINOR=1
           fi
-        done <<< "${{ steps.get-commits.outputs.commits }}"
+        done < <(echo "${{ steps.get-commits.outputs.commits }}")
         
         # Determine new version based on release type and commit analysis
         if [ "$RELEASE_TYPE" = "major" ] || [ $IS_MAJOR -eq 1 ]; then
