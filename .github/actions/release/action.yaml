@@ -32,12 +32,7 @@ runs:
         else
           COMMITS=$(git log "$LAST_TAG"..HEAD --pretty=format:"%s")
         fi
-        echo "Commits since last tag:"
-        {
-          echo "commits<<EOF"
-          echo "$COMMITS"
-          echo "EOF"
-        } >> $GITHUB_OUTPUT
+        echo "$COMMITS" > commits.txt
       shell: bash
   # Get new release tag based on commits from last tag to main
   # Tag is of the format vX.Y.Z
@@ -63,15 +58,10 @@ runs:
         MINOR="${MINOR:-0}"
         PATCH="${PATCH:-0}"
         
-        # Read commits into a variable
-        COMMITS="${{ steps.get-commits.outputs.commits }}"
-        
         echo "Analyzing commits..."
-        echo "$COMMITS"
         
         # Check commits for breaking changes or features
         while IFS= read -r COMMIT; do
-          echo "Processing commit: $COMMIT"
           if [[ "$COMMIT" == *"BREAKING CHANGE"* ]]; then
             MAJOR=$((MAJOR + 1))
             MINOR=0
@@ -82,7 +72,7 @@ runs:
           else
             PATCH=$((PATCH + 1))
           fi
-        done <<< "$COMMITS"
+        done < commits.txt
         
         NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
         echo "New tag: $NEW_TAG"
