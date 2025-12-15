@@ -1,0 +1,27 @@
+# 1. Accepts default branch name where tags are created for releases
+# 2. Accepts release type: auto, patch, minor, major
+# 3. Create a javacript composite action under .github/actions named "action.yaml"
+# 4. The action should perform the following steps:
+#   4.1 Using node20
+#   4.2 Using main: index.js as entry point
+
+name: Version Tagger CI
+description: This action automates version tagging based on release type
+
+inputs:
+  release-type:
+    description: 'Type of release: auto, patch, minor, major'
+    required: true
+    default: 'auto'
+  github-token:
+    description: 'GitHub token for authentication'
+    required: true
+    default: '${{ secrets.TOKEN }}'
+  default-branch:
+    description: 'Default branch name where tags are created for releases'
+    required: true
+    default: 'main'
+
+runs:
+  using: 'node20'
+  main: 'index.js'

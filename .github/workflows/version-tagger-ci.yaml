@@ -1,0 +1,43 @@
+name: Version Tagger CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      default-branch:
+        description: 'Default branch name where tags are created for releases'
+        required: true
+        default: 'main'
+      release-type:
+        description: 'Type of release: auto, patch, minor, major'
+        required: true
+        default: 'auto'
+jobs:
+  version-tagger:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4
+        - name: Version Tagger Action
+          uses: ./.github/actions/version-tagger-ci
+          with:
+            release-type: ${{ github.event.inputs.release-type }}
+            github-token: ${{ secrets.TOKEN }}
+            default-branch: ${{ github.event.inputs.default-branch }}
+
+    
+# This workflow automates the version tagging process based on release type using a JavaScript composite action.
+# 1. Accepts default branch name where tags are created for releases
+# 2. Accepts release type: auto, patch, minor, major
+# 3. Create a javacript composite action under .github/actions named "action.yaml"
+# 4. The action should perform the following steps:
+#   4.1 Using node20
+#   4.2 Using main: index.js as entry point
+# 5. In the index.js, based on release type
+#   5.1 Get last tag from the default branch
+#   5.2 Get all commits since the last tag to current HEAD
+#   5.3 auto: computes new tag based on commit messages
+#     - If any commit has "BREAKING CHANGE" in its message, consider it a major change. Increment major version by 1 and reset minor and patch to 0
+#     - Else if any commit starts with "feat:", consider it a minor change. Increment minor version by 1 and reset patch to 0
+#     - Else consider it a patch change. Increment patch version by 1
+#   5.4 patch: increments patch version
+#   5.5 minor: increments minor version
+#   5.6 major: increments major version
