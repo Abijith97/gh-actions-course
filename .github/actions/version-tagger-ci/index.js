@@ -32,14 +32,27 @@ async function run() {
         });
 
         let latestTag = tags.length ? tags[0].name : '0.0.0';
-
+        console.log(`latest_tag: ${latestTag}`);
+        
         // Get commits since the latest tag
-        const { data: commits } = await octokit.rest.repos.compareCommits({
-            owner,
-            repo,
-            base: latestTag,
-            head: defaultBranch
-        });
+        let commits;
+        if (latestTag === '0.0.0') {
+            // Get all commits if no tags exist
+            const { data: commitsArray } = await octokit.rest.repos.listCommits({
+                owner,
+                repo,
+                sha: defaultBranch
+            });
+            commits = { commits: commitsArray };
+        } else {
+            const { data } = await octokit.rest.repos.compareCommits({
+                owner,
+                repo,
+                base: latestTag,
+                head: defaultBranch
+            });
+            commits = data;
+        }
 
         let newVersion;
 
