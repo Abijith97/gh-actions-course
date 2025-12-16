@@ -3,8 +3,17 @@ name: Docker composite actions
 on:
     workflow_dispatch:
       inputs:
-        url:
+        url: #INPUT_URL
+          type: choice
+          options:
+            - "https://www.google.com"
+            - "https://www.sdfwfewf.com"
+            - "dwsdcwewef"
           default: "https://www.google.com"
+        delay: #INPUT_DELAY
+          default: "10"
+        max_trials: #INPUT_MAX_TRIALS
+          default: "5"
 
 jobs:
   ping-url:
@@ -15,3 +24,5 @@ jobs:
         uses: ./.github/actions/docker-ping-url
         with:
           url: ${{ github.event.inputs.url }}
+          delay: ${{ github.event.inputs.delay }}
+          max_trials: ${{ github.event.inputs.max_trials }}
