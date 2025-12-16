@@ -16,7 +16,6 @@ inputs:
   github-token:
     description: 'GitHub token for authentication'
     required: true
-    default: '${{ secrets.TOKEN }}'
   default-branch:
     description: 'Default branch name where tags are created for releases'
     required: true
