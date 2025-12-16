@@ -61,7 +61,7 @@ async function run() {
             for (const commit of commits.commits) {
                 const message = commit.commit.message;
                 if (message.includes('BREAKING CHANGE')) {
-                    incrementType = 'major';
+                    incrementType = 'minor';
                     break;
                 } else if (message.startsWith('feat:')) {
                     incrementType = 'minor';
