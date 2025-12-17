@@ -1,0 +1,6 @@
+name: Firmware Guard
+description: Protect firmware using Docker Firmware Guard.
+
+runs:
+  using: docker
+  image: Dockerfile
