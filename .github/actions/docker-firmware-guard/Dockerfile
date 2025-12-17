@@ -15,7 +15,7 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copy project files
-COPY ../../../simple-c-project/* .
+COPY ../../simple-c-project/* .
 
 COPY . .
 
