@@ -15,13 +15,12 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copy project files
+COPY ../../../simple-c-project/* .
+
 COPY . .
 
 # Build the binary using make
 RUN make
-
-# Install Python packages if requirements.txt exists
-RUN if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
 
 # Run main.py with python
 ENTRYPOINT ["python3", "main.py"]
