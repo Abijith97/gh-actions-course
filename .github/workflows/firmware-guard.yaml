@@ -1,0 +1,12 @@
+name: Docker firmware guard action
+
+on:
+    workflow_dispatch:
+
+jobs:
+  run-firmware-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Docker Firmware Guard Action
+        uses: ./.github/actions/docker-firmware-guard
