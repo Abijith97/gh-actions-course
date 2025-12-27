@@ -1,11 +1,11 @@
-name: Reuse workflow from same repo
+name: Reuse workflow from different repo
 
 on:
   workflow_dispatch:
 
 jobs:
   deploy:
-    uses: ./.github/workflows/reuse-workflow.yaml
+    uses: Abijith97/reuse-workflow/.github/workflows/reuse-workflow.yaml@main
   print-outputs:
     runs-on: ubuntu-latest
     needs: deploy
