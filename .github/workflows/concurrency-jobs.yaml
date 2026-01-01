@@ -1,0 +1,28 @@
+name: Concurrency jobs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ping-url-with-concurrency:
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ping URL
+        uses: ./.github/actions/docker-ping-url
+        with:
+          url: https://www.invalid.com
+          delay: 5
+          max_trials: 20
+  ping-url-without-concurrency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ping URL
+        uses: ./.github/actions/docker-ping-url
+        with:
+          url: https://www.invalid.com
+          delay: 5
+          max_trials: 20
