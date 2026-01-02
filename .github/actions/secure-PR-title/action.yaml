@@ -1,0 +1,11 @@
+name: Secure PR title
+description: Check if tite doesn't cause script injection
+
+inputs:
+  pr-title:
+    description: 'PR title'
+    required: true
+
+runs:
+  using: 'node20'
+  main: 'index.js'
