@@ -13,5 +13,5 @@ jobs:
       - name: Echo Hello
         run: |
           sudo apt-get -y install cmake
-          echo "Hello, World!"
+          whoami
           cmake --version
