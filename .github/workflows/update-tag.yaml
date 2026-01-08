@@ -1,0 +1,61 @@
+name: Update Tag on PR Merge
+
+on:
+  # pull_request:
+  #   types:
+  #     - closed
+  #   branches:
+  #     - main
+  workflow_dispatch:
+    inputs:
+      pr-title:
+        description: 'PR title for determining version bump'
+        required: true
+        type: string
+      latest-tag:
+        description: 'Latest tag (if empty, will be fetched from git)'
+        required: false
+        type: string
+
+jobs:
+  create-tag:
+    # Only run if PR was actually merged (not just closed)
+    # if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    outputs:
+      new-tag: ${{ steps.calculate-tag.outputs.new-tag }}
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for tags
+          # token: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Get Latest Tag
+      #   id: get-latest-tag
+      #   run: |
+      #     # Get the latest tag, default to v0.0.0 if none exists
+      #     LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+      #     echo "latest-tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+      #     echo "Latest tag: $LATEST_TAG"
+      #   shell: bash
+
+      - name: Calculate New Tag
+        id: calculate-tag
+        uses: ./.github/actions/get-new-tag
+        with:
+          current-tag: ${{ github.event.inputs.latest-tag }}
+          # pr-title: ${{ github.event.pull_request.title }}
+          pr-title: ${{ github.event.inputs.pr-title }}
+
+  # call-tag-workflow:
+  #   needs: create-tag
+  #   uses: ./.github/workflows/Tag.yml
+  #   with:
+  #     organization: ${{ github.repository_owner }}
+  #     repository: ${{ github.event.repository.name }}
+  #     reference: main
+  #     tag_version: ${{ needs.create-tag.outputs.new-tag }}
+  #   secrets:
+  #     git-token: ${{ secrets.GITHUB_TOKEN }}
